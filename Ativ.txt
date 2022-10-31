@@ -1,0 +1,119 @@
+--TABELA USUÁRIOS
+CREATE TABLE usuario (
+    id_usuario NUMBER(5),
+    nome       VARCHAR2(100),
+    quilos     NUMBER(3, 0),
+    altura     NUMBER(3, 0),
+    email      VARCHAR2(100),
+    CONSTRAINT pk_usuario PRIMARY KEY ( id_usuario )
+);
+    
+    
+--SEQUÊNCIA USUÁRIO   
+CREATE SEQUENCE seq_usuario START WITH 1 MAXVALUE 9999 NOCACHE;
+
+
+--TRIGGER PARA INSERÇÃO AUTOMÁTICO DO ID_USUÁRIO
+CREATE OR REPLACE TRIGGER trg_do_usuario BEFORE
+    INSERT ON usuario
+    FOR EACH ROW
+BEGIN
+    IF :new.id_usuario IS NULL THEN
+        SELECT
+            seq_usuario.NEXTVAL
+        INTO :new.id_usuario
+        FROM
+            dual;
+
+    END IF;
+END trg_do_usuario;
+
+INSERT INTO usuario (
+    nome,
+    quilos,
+    altura,
+    email
+) VALUES (
+    'Huguinho',
+    90,
+    170,
+    'huguinho@yahoo.com.br'
+);
+
+INSERT INTO usuario (
+    nome,
+    quilos,
+    altura,
+    email
+) VALUES (
+    'Zezinho',
+    83,
+    175,
+    'zezinho@yahoo.com.br'
+);
+
+
+
+ --TABELA ALIMEMNTOS   
+CREATE TABLE alimento (
+    id_alimento     NUMBER(5),
+    nome            VARCHAR2(50),
+    carboidrato     NUMBER(7, 0),
+    proteina        NUMBER(4, 0),
+    gordura_total   NUMBER(4, 0),
+    fibra_alimentar NUMBER(4, 0),
+    sodio           NUMBER(4, 0),
+    CONSTRAINT pk_alimento PRIMARY KEY ( id_alimento )
+);
+
+--SEQUÊNCIA ALIMENTO
+CREATE SEQUENCE seq_alimento START WITH 1 MAXVALUE 9999 NOCACHE;
+
+
+--TRIGGER PARA INSERÇÃO AUTOMÁTICO DO ID_ALIMENTO
+CREATE OR REPLACE TRIGGER trg_do_alimento BEFORE
+    INSERT ON alimento
+    FOR EACH ROW
+BEGIN
+    IF :new.id_alimento IS NULL THEN
+        SELECT
+            seq_alimento.NEXTVAL
+        INTO :new.id_alimento
+        FROM
+            dual;
+
+    END IF;
+END trg_do_alimento;
+
+INSERT INTO alimento (
+    nome,
+    carboidrato,
+    proteina,
+    gordura_total,
+    fibra_alimentar,
+    sodio
+) VALUES (
+    'maçã',
+    1,
+    1,
+    1,
+    1,
+    1
+);
+
+INSERT INTO alimento (
+    nome,
+    carboidrato,
+    proteina,
+    gordura_total,
+    fibra_alimentar,
+    sodio
+) VALUES (
+    'pêra',
+    2,
+    2,
+    2,
+    2,
+    2
+);
+
